@@ -1,0 +1,40 @@
+[project]
+name = "sap-extractor"
+version = "0.1.0"
+description = "Enterprise SAP S/4HANA data extractor, analytics dashboard, and automation platform."
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+  "pydantic>=2.5",
+  "pydantic-settings>=2.1",
+  "sqlalchemy[asyncio]>=2.0",
+  "asyncpg>=0.29",
+  "psycopg2-binary>=2.9",
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "requests>=2.31",
+  "openpyxl>=3.1",
+  "reportlab>=4.0",
+  "plotly>=5.20",
+  "dash>=2.16",
+  "dash-bootstrap-components>=1.5",
+  "scikit-learn>=1.4",
+  "apscheduler>=3.10",
+  "python-dotenv>=1.0",
+  "rich>=13.7",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+sap   = ["pyrfc>=3.3"]
+ai    = ["openai>=1.12"]
+dev   = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.3", "mypy>=1.9", "responses>=0.25"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

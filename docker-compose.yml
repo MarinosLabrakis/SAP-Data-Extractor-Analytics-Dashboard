@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: sap
+      POSTGRES_PASSWORD: sap
+      POSTGRES_DB: sap_analytics
+    ports: ["5432:5432"]
+    volumes:
+      - sap_pg:/var/lib/postgresql/data
+      - ./sql/001_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql
+      - ./sql/002_seed.sql:/docker-entrypoint-initdb.d/002_seed.sql
+
+  app:
+    build: .
+    depends_on: [db]
+    env_file: .env
+    command: python scripts/run_pipeline.py --source mock --period 2025-Q1
+
+  dashboard:
+    build: .
+    depends_on: [db]
+    env_file: .env
+    ports: ["8050:8050"]
+    command: python -m src.dashboard.app
+
+  scheduler:
+    build: .
+    depends_on: [db]
+    env_file: .env
+    command: python -m src.scheduler.jobs
+
+volumes:
+  sap_pg:
